@@ -1,5 +1,5 @@
 import { defineConfig } from "@playwright/test";
-import { generateProjects, defineBddConfig } from "playwright-bdd";
+import { defineBddConfig } from "playwright-bdd";
 
 
 const testDir = defineBddConfig({

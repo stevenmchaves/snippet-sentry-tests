@@ -1,5 +1,7 @@
 import { Connection } from "./connection";
 import { UserStatus } from "./user_status";
+import { ConnectionStatus } from "./connection_status";
+
 
 export class User {
   private admin: boolean;
@@ -9,7 +11,7 @@ export class User {
   private email: string;
   private status: UserStatus;
   private notes: string;
-  private connections: Map<string, Connection>;
+  private connections: Map<string, Connection | null>;
   
   constructor(
     admin: boolean,
@@ -17,21 +19,21 @@ export class User {
     last_name: string,
     email: string,
     status?: UserStatus | UserStatus.Pending,
-    phone_number?: string | null,
-    notes?: string | null,
-    connections?: Map<string, Connection> | null,
+    phone_number?: string | "",
+    notes?: string | "",
+    connections?: Map<string, Connection | null> | null,
   ) {
     this.admin = admin;
     this.first_name = first_name;
     this.last_name = last_name;
-    this.status = status;
+    this.status = status ?? UserStatus.Pending;
     this.email = email;
-    this.phone_number = phone_number;
-    this.notes = notes;
+    this.phone_number = phone_number ?? "";
+    this.notes = notes ?? "";
     if (connections) {
       this.connections = connections;
     } else {
-      this.connections = new Map<string, Connections>([
+      this.connections = new Map<string, Connection | null>([
         ['Android', null],
         ['WhatsApp', null],
         ['iMessage', null] 
@@ -44,12 +46,16 @@ export class User {
   isAdmin(): boolean {
     return this.admin;
   }
-
+  
+  getStatus(): UserStatus | undefined {
+    return this.status;
+  }
+  
   getFirstName(): string {
     return this.first_name;
   }
 
-  getLast_Name(): string {
+  getLastName(): string {
     return this.last_name;
   }
 
@@ -65,7 +71,7 @@ export class User {
     return this.notes;
   }
 
-  getConnections(): Map<string, Connection> {
+  getConnections(): Map<string, Connection|null> {
     return this.connections;
   }
 
@@ -99,16 +105,12 @@ export class User {
     this.notes = notes;
   }
 
-  addConnection(channel: string, connection: Connection): void {
-    this.connections.set(channel, connection);
+  addConnection(channel: string, status: ConnectionStatus, connected: boolean): void {
+    this.connections.set(channel, new Connection(status, connected));
   }
 
   removeConnection(channel: string): void {
     this.connections.set(channel, null);
-  }
-
-  addConnection(type: string, channel: string, status: string, connected: boolean): void {
-    this.connections.set(channel, Connection(type, status, connected));
   }
   
   // Method to get a string representation of the object
