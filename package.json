@@ -1,32 +1,28 @@
 {
-  "name": "ecommerce-bdd-tests",
+  "name": "snippet-sentry-tests",
   "version": "1.0.0",
   "scripts": {
     "prettier:check": "prettier --check .",
-    "test:dev-smoke": "export NODE_ENV=dev && yarn test:generate-bdd && playwright test --grep @smoke",
     "test:e2e-codegen": "yarn playwright install && yarn playwright codegen $BASE_URL",
-    "test:e2e-dev": "export NODE_ENV=dev && playwright test --config playwright.config.ts",
-    "test:e2e-dev-all-browsers": "export NODE_ENV=dev && npx playwright install && playwright test --config playwright.config.ts --browser chromium --browser firefox --browser webkit",
-    "test:e2e-dev-headed": "export NODE_ENV=dev && playwright test --config playwright.config.ts --headed",
-    "test:e2e-qa": "export NODE_ENV=qa && playwright test --config playwright.config.ts",
-    "test:e2e-qa-all-browsers": "export NODE_ENV=qa && npx playwright install && playwright test --config playwright.config.ts --browser chromium --browser firefox --browser webkit",
-    "test:e2e-qa-headed": "export NODE_ENV=qa && playwright test --config playwright.config.ts --headed",
-    "test:e2e-prod": "export NODE_ENV=prod && playwright test --config playwright.config.ts",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "test:e2e-all-browsers": "npx playwright install && playwright test --config playwright.config.ts --browser chromium --browser firefox --browser webkit",
+    "test:e2e-headed": "playwright test --config playwright.config.ts --headed",
     "test:generate-bdd": "export BDD=true && bddgen -c playwright.config.ts",
-    "test:generate-run-e2e-qa": "yarn test:playwright-deps && yarn test:generate-bdd && yarn test:e2e-qa",
+    "test:generate-run-e2e": "yarn test:playwright-deps && yarn test:generate-bdd && yarn test:e2e",
     "test:playwright-deps": "playwright install --with-deps",
-    "test:e2e-watch-bdd": "nodemon -w ./e2e-tests/features -w ./e2e-tests/steps -e feature,js,ts --exec \"yarn test:generate-bdd\"",
+    "test:e2e-watch-bdd": "nodemon -w ./features -w ./steps -e feature,js,ts --exec \"yarn test:generate-bdd\"",
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.0",
+    "@playwright/test": "^1.52.0",
     "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.7",
+    "@types/node": "^22.15.18",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
     "async-mutex": "^0.5.0",
@@ -40,6 +36,7 @@
     "lodash": "^4.17.21",
     "node-gyp": "^9.0.0",
     "playwright": "^1.47.0",
+    "playwright-bdd": "^8.2.1",
     "playwright-core": "^1.47.0",
     "prettier": "^2.3.2",
     "typescript": "~5.3.0"
@@ -56,8 +53,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.6.12",
     "dotenv": "^16.4.5",
-    "node-fetch": "^3.3.2",
-    "playwright-bdd": "^8.1.0"
+    "node-fetch": "^3.3.2"
   },
   "browserslist": {
     "production": [
@@ -70,5 +66,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "license": "MIT"
 }
